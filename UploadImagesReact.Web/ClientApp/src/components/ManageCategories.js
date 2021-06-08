@@ -8,11 +8,13 @@ class ManageCategories extends React.Component {
         categories: [],
         categoryTitle: '',
         buttonDisabled: true,
-        categoryDuplicate: false
+        categoryDuplicate: false,
+        loading: true
     }
 
     componentDidMount = async () => {
         await this.refreshCategories();
+        this.setState({ loading: false });
     }
 
     onTextChange = async e => {
@@ -70,7 +72,7 @@ class ManageCategories extends React.Component {
 
     render() {
         const { onTextChange, onAddCategoryClick, onCategoryClick } = this;
-        const { categoryTitle, buttonDisabled, categoryDuplicate } = this.state;
+        const { categoryTitle, buttonDisabled, categoryDuplicate, loading } = this.state;
         return (
             <>
                 <div className="row">
@@ -86,6 +88,7 @@ class ManageCategories extends React.Component {
                     </div>
                 </div>
                 <h4>Click on a category to add a subcategory.</h4>
+                {loading && <h4 className="text-warning">Loading...</h4>}
                 <ul className="list-group col-md-6" style={{ marginTop: 10 }}>
                     {this.state.categories.map((category, i) =>
                         <button key={i} className="list-group-item list-group-item-warning" onClick={() => { onCategoryClick(category) }}>{category.title}</button>
